@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <!-- 안에꺼 다지우고 빈껍데기만 나눠도 스프링이 알아서함 -->
+   <typeAliases>
+  		<package name="com.yi.domain"/>
+  </typeAliases>
+</configuration>
