@@ -2,6 +2,7 @@ package com.yi.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yi.domain.ReplyVO;
@@ -10,6 +11,7 @@ import com.yi.persistence.ReplyDAO;
 @Service
 public class ReplyServiceImpl implements ReplyService {
 	
+	@Autowired
 	private ReplyDAO dao;
 
 	@Override
