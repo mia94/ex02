@@ -42,6 +42,12 @@ public class HomeController {
 		return "Hello World";
 	}
 	
+	@RequestMapping(value="test", method=RequestMethod.GET)
+	public String test() {
+		logger.info("test ------- get");
+		return "test";
+	}
+	
 }
 
 

@@ -1,6 +1,8 @@
 package com.yi.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yi.domain.Criteria;
+import com.yi.domain.PageMaker;
 import com.yi.domain.ReplyVO;
 import com.yi.service.ReplyService;
 
@@ -55,6 +59,38 @@ public class ReplyController {
 		}
 		
 		return entity;
+	}
+	
+	//페이지
+	@RequestMapping(value="/{bno}/{page}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> listPage(@PathVariable("bno")int bno,@PathVariable("page") int page){
+		
+		ResponseEntity<Map<String, Object>> entity = null;
+		
+		try {
+			Criteria cri = new Criteria();
+			cri.setPage(page);
+			//리스트정보
+			List<ReplyVO> list = service.listPage(cri, bno);
+			//페이지정보
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			
+			int count = service.totalCount(bno);
+			pageMaker.setTotalCount(count);
+			//리스트정보와 페이지정보를 같이 보내기위해 map에 저장
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("list", list);
+			map.put("pageMaker", pageMaker);
+			//정상적으로 되면 ok가 나올것
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+		
 	}
 	
 	
