@@ -1,10 +1,13 @@
 package com.yi.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,11 +25,6 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 	
-	@RequestMapping(value="register", method=RequestMethod.GET)
-	public String register() {
-		return "redirect:/register";
-	}
-	
 	@RequestMapping(value="", method=RequestMethod.POST)
 	public ResponseEntity<String> register(@RequestBody MemberVO vo){
 		ResponseEntity<String> entity = null;
@@ -42,4 +40,48 @@ public class MemberController {
 		
 		return entity;
 	}
+	
+	@RequestMapping(value="", method=RequestMethod.GET)
+	public ResponseEntity<List<MemberVO>> list(){
+		ResponseEntity<List<MemberVO>> entity = null;
+		
+		try {
+			List<MemberVO> list = service.selectAll();
+			entity = new ResponseEntity<>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);//List<MemberVO>로 보내야 하나, 보낼수없을때는HttpStatus만 보냄
+		}
+		
+		return entity;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
