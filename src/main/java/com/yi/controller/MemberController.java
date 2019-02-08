@@ -71,6 +71,23 @@ public class MemberController {
 		}
 		return entity;
 	}
+	
+	@RequestMapping(value="{userid}", method=RequestMethod.DELETE)
+	public ResponseEntity<String> remove(@PathVariable("userid") String userid){
+		ResponseEntity<String> entity = null;
+		
+		try {
+			MemberVO vo = new MemberVO();
+			vo.setUserid(userid);
+			service.deleteMember(vo);
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
 }
 
 
