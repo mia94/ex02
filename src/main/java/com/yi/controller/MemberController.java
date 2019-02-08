@@ -56,6 +56,21 @@ public class MemberController {
 		
 		return entity;
 	}
+	
+	@RequestMapping(value="{userid}", method=RequestMethod.PUT)
+	public ResponseEntity<String> update(@PathVariable("userid") String userid,@RequestBody MemberVO vo){
+		ResponseEntity<String> entity = null;
+		try {
+			vo.setUserid(userid);
+			service.updateMember(vo);
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
 }
 
 
