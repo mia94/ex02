@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><!-- 제이쿼리CDN이 반드시먼저와야함 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+</head>
+<body>
+	<h1>My Title</h1>
+	<p>my name</p>
+	
+	<hr>
+	<div id="t1"></div>
+	<script>
+		var source = "<h1>{{title}}</h1><p>{{name}}</p>";//템플릿
+		var template = Handlebars.compile(source);//템플릿 가져오기
+		var data = {title:"타이틀", name:"이쁘니"};//json데이터
+		var result = template(data);//데이터 바인딩
+		console.log(result);
+		
+		$("#t1").html(result);//결과를 화면에 보이게 하기
+	</script>
+	<hr>
+	<div id="t2"></div>
+	<script>
+		var source = "<h1>{{name}}</h1><p>{{userid}}</p><p>{{addr}}</p>";
+		template = Handlebars.compile(source);
+		data = {name:"이쁘니", userid:"pretty",addr:"대구시 남구"};
+		result = template(data);
+		
+		$("#t2").html(result);
+	</script>
+</body>
+</html>

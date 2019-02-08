@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><!-- 제이쿼리CDN이 반드시먼저와야함 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+</head>
+<body>
+	<div id="test"></div>
+	<script id="template1" type="text/x-handlebars-template"> 
+	<h1 id="title">{{title}}</h1>
+	<h3 id="subtitle">{{subtitle}}</h3>
+	<ul id="replies">
+		{{#list}}
+		<li class="replyLi">
+			<div>{{rno}}</div>
+			<div>{{replytext}}</div>
+			<div>{{tempdate replydate}} {{tempweek replydate}} {{temptime replydate}}</div>
+		</li>
+		{{/list}}
+	</ul>
+	</script>
+	<!-- 배열만이 아닐경우에는 each대신 배열이름을 넣음 -->
+	<script>
+		var data = {
+				title:"제목입니다.",
+				subtitle:"사이드 제목입니다.",
+				list:[													//배열로 들어옴
+					{rno:1, replytext:"1번 댓글....", replydate:new Date()},
+					{rno:2, replytext:"2번 댓글....", replydate:new Date()},
+					{rno:3, replytext:"3번 댓글....", replydate:new Date()},
+					{rno:4, replytext:"4번 댓글....", replydate:new Date()},
+					{rno:5, replytext:"5번 댓글....", replydate:new Date()}
+			]
+		}
+		
+		Handlebars.registerHelper("tempdate", function(value){
+			var date = new Date(value);
+			var year = date.getFullYear();
+			var month = date.getMonth()+1
+			var day = date.getDate();
+			
+			return year+"/"+month+"/"+day;
+		})
+		
+		Handlebars.registerHelper("tempweek", function(value){
+			var sWeek = ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"];
+			var date = new Date(value);
+			var week = date.getDay();
+			return sWeek[week];
+		})
+		
+		Handlebars.registerHelper("temptime",function(value){
+			var date = new Date(value);
+			var hour = date.getHours();
+			var minute = date.getMinutes();
+			var second = date.getSeconds();
+			return hour+":"+minute+":"+second
+		})
+		
+		var source = $("#template1").html();
+		var f = Handlebars.compile(source);
+		var result = f(data);
+		
+		$("#test").html(result);
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

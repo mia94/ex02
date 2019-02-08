@@ -43,6 +43,21 @@
 	}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+<script id="template1" type="text/x-handlebars-template"> 
+{{#each.}}
+<li data-rno="{{rno}}" class="replyLi">
+<div class="item">
+	<span class="rno">{{rno}}</span> : <span class="writer">{{replyer}}</span><br>
+	<span>{{replytext}}</span>
+	<div class="btnWrap">
+		<button class="modify">수정</button>
+		<button class="delete">삭제</button>
+	</div>
+</div>
+</li>
+{{/each}}
+</script>
 <script>
 	var bno = 2049;
 	function getPageList(page){
@@ -64,6 +79,13 @@
 				</div>
 			</li> */
 			$("#replies").empty();
+			
+			var source = $("#template1").html();
+			var f = Handlebars.compile(source);
+			var result = f(json.list);
+			$("#replies").append(result);
+			/*이제 핸들바즈로 이용할 것 
+		
 			$(json.list).each(function(i,obj){
 				var liTag = $("<li>").attr("data-rno",obj.rno).attr("class","replyLi");
 				var divTag = $("<div>").addClass("item");
@@ -81,7 +103,7 @@
 				btnDivTag.append(btnModifyTag).append(btnDeleteTag);
 				
 				$("#replies").append(liTag);
-			})
+			}) */
 			//pagination
 			/* <li class="active"><a href="#">1</a></li>
 			<li><a href="#">2</a></li>
@@ -187,6 +209,14 @@
 				}
 			})
 		})
+		
+		$(document).on("click","pagination a",function(e){
+			e.preventDefault();
+			
+			var num = $(this).text();
+			getPageList(num);
+		})
+		
 	})
 </script>
 </head>

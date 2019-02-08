@@ -22,6 +22,11 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 	
+	@RequestMapping(value="register", method=RequestMethod.GET)
+	public String register() {
+		return "redirect:/register";
+	}
+	
 	@RequestMapping(value="", method=RequestMethod.POST)
 	public ResponseEntity<String> register(@RequestBody MemberVO vo){
 		ResponseEntity<String> entity = null;

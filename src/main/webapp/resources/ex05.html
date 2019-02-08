@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><!-- 제이쿼리CDN이 반드시먼저와야함 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+<style>
+	table{
+		border-collapse: collapse;
+	}
+	td{
+		border: 1px solid #ccc;
+		padding: 7px;
+		width: 150px;
+	}
+</style>
+</head>
+<body>
+
+	<div id="wrap"></div>
+	<script id="template" type="text/x-handlebars-template"> 
+	<table>
+		<tr>
+			<td>이름</td>
+			<td>아이디</td>
+			<td>메일주소</td>
+		</tr>
+		
+		{{#users}}
+		<tr>
+			<td>{{name}}</td>
+			<td>{{id}}</td>
+			<td><a href="#">{{email}}</a></td>
+		</tr>
+		{{/users}}
+		
+	</table>
+	</script>
+	
+	<script>
+		var source = $("#template").html();
+		var template = Handlebars.compile(source);
+		var data = {
+			users: [
+				{name:"홍길동1", id:"aaa1",email:"aaa1@gmail.com"},
+				{name:"홍길동2", id:"aaa2",email:"aaa2@gmail.com"},
+				{name:"홍길동3", id:"aaa3",email:"aaa3@gmail.com"},
+				{name:"홍길동4", id:"aaa4",email:"aaa4@gmail.com"},
+				{name:"홍길동5", id:"aaa5",email:"aaa5@gmail.com"}
+			]
+		}
+		var result = template(data);
+		$("#wrap").html(result);
+	</script>
+</body>
+</html>
