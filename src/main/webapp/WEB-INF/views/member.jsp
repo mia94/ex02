@@ -120,19 +120,36 @@
 					}
 				})
 			})
+			
+			//삭제
+		$(document).on("click","#btndelete",function(){
+			var userid = $(this).parents("tr").children(".userid").text();
+			$.ajax({
+				url:"${pageContext.request.contextPath}/member/"+userid,
+				type:"delete",
+				dataType:"text",
+				success:function(json){
+					console.log(json);
+					if(json == "success"){
+						alert(userid+"가 삭제되었습니다.");
+					}
+					getPageList(1);
+				}
+			})
+		})
 	  })
   </script>
   <script id="template1" type="text/x-handlebars-template"> 
  	<table class="item">
 	{{#each.}}
 		<tr>
-			<td>{{userid}}</td>
+			<td class="userid">{{userid}}</td>
 			<td>{{username}}</td>
 			<td>{{userpw}}</td>
 			<td>{{email}}</td>
 			<td>
 				<button type="button" class="btn btn-default">수정</button>
-        		<button type="button" class="btn btn-default">삭제</button>
+        		<button type="button" class="btn btn-default" id="btndelete">삭제</button>
 			</td>
 		</tr>
 	{{/each}}
