@@ -52,7 +52,7 @@
     <div class="form-group">        
       <div class="col-sm-offset-2 col-sm-10">
         <button type="button" class="btn btn-default btnAdd">추가</button>
-        <button type="button" class="btn btn-default">리스트 가져오기</button>
+        <button type="button" class="btn btn-default btnList">리스트 가져오기</button>
       </div>
     </div>
   <!-- </form> -->
@@ -89,6 +89,10 @@
 	  $(function(){
 		  getPageList();
 		  
+		  $(".btnList").click(function(){
+			  getPageList();
+		  })
+		  
 		  $(".btnAdd").click(function(){
 				//값 넘겨주기
 				var userid = $("#userid").val();
@@ -119,7 +123,8 @@
 	  })
   </script>
   <script id="template1" type="text/x-handlebars-template"> 
- 	<table>
+ 	<table class="item">
+	{{#each.}}
 		<tr>
 			<td>{{userid}}</td>
 			<td>{{username}}</td>
@@ -130,6 +135,7 @@
         		<button type="button" class="btn btn-default">삭제</button>
 			</td>
 		</tr>
+	{{/each}}
 	</table>
   </script>
 </div>
