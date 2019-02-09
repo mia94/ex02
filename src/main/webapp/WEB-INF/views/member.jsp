@@ -17,6 +17,23 @@
 		border: 1px solid #ccc;
 		padding: 5px;
 	}
+	#modDiv{
+		width:400px;
+		height: 200px;
+		background-color: gray;
+		position: absolute;
+		left: 40%;
+		top: 20%;
+		padding: 10px;
+		z-index: 1000;
+		display: none;
+		padding: 10px;
+	}
+	#modDiv label{
+		width:100px;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
 </style>
 <title>Insert title here</title>
 </head>
@@ -24,7 +41,6 @@
 
 <div class="container">
 
- 	<!-- <form class="" action="post"> -->
     <div class="form-group">
       <label class="control-label col-sm-2" for="id">아이디</label>
       <div class="col-sm-10">
@@ -55,7 +71,29 @@
         <button type="button" class="btn btn-default btnList">리스트 가져오기</button>
       </div>
     </div>
-  <!-- </form> -->
+  	<!-- 수정 창 -->
+  	<div id="modDiv">
+		<p>
+			<label>아이디</label>
+			<input type="text" id="useridMod" size="30" readonly="readonly">
+		</p>
+		<p>
+			<label>이름</label>
+			<input type="text" id="usernameMod" size="30">
+		</p>
+		<p>
+			<label>비밀번호</label>
+			<input type="text" id="passwdMod" size="30">
+		</p>
+		<p>
+			<label>이메일</label>
+			<input type="text" id="emailMod" size="30">
+		</p>
+		<div>
+			<button id="btnMod">수정</button>
+			<button id="btnCancel">취소</button>
+		</div>
+	</div>
   
   <!-- 리스트 -->
   <div id="memberlist">
@@ -121,7 +159,7 @@
 				})
 			})
 			
-			//삭제
+		//삭제
 		$(document).on("click","#btndelete",function(){
 			var userid = $(this).parents("tr").children(".userid").text();
 			$.ajax({
@@ -137,6 +175,51 @@
 				}
 			})
 		})
+		//수정
+		$(document).on("click","#btnModify",function(){
+			var userid = $(this).parents("tr").children(".userid").text();
+			var username = $(this).parents("tr").children(".username").text();
+			var userpw = $(this).parents("tr").children(".userpw").text();
+			var email = $(this).parents("tr").children(".email").text();
+			
+			$("#useridMod").val(userid);
+			$("#usernameMod").val(username);
+			$("#passwdMod").val(userpw);
+			$("#emailMod").val(email);
+			
+			$("#modDiv").show();
+		})
+		
+		$("#btnCancel").click(function(){
+			$("#modDiv").hide();
+		})
+		
+		$("#btnMod").click(function(){
+			var userid = $("#useridMod").val();
+			var username = $("#usernameMod").val();
+			var userpw = $("#passwdMod").val();
+			var email = $("#emailMod").val();
+			var jsonBody = {userid:userid, username:username, userpw:userpw, email:email};
+			$.ajax({
+				url:"${pageContext.request.contextPath}/member/"+userid,
+				type:"put",
+				headers:{
+					"Content-Type":"application/json",
+					"X-HTTP-Method-Override":"PUT"
+				},
+				data:JSON.stringify(jsonBody),
+				dataType:"text",
+				success:function(json){
+					console.log(json);
+					if(json == "success"){
+						alert(userid+"가 수정되었습니다.");
+					}
+					//수정완료되면 창 닫기
+					$("#modDiv").hide();
+					getPageList(1);
+				}
+			})
+		})
 	  })
   </script>
   <script id="template1" type="text/x-handlebars-template"> 
@@ -144,11 +227,11 @@
 	{{#each.}}
 		<tr>
 			<td class="userid">{{userid}}</td>
-			<td>{{username}}</td>
-			<td>{{userpw}}</td>
-			<td>{{email}}</td>
+			<td class="username">{{username}}</td>
+			<td class="userpw">{{userpw}}</td>
+			<td class="email">{{email}}</td>
 			<td>
-				<button type="button" class="btn btn-default">수정</button>
+				<button type="button" class="btn btn-default" id="btnModify">수정</button>
         		<button type="button" class="btn btn-default" id="btndelete">삭제</button>
 			</td>
 		</tr>
